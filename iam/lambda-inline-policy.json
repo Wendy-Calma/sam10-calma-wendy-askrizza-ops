@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublishHealthMetrics",
+      "Effect": "Allow",
+      "Action": "cloudwatch:PutMetricData",
+      "Resource": "*",
+      "Condition": {"StringEquals": {"cloudwatch:namespace": "SAM10"}}
+    },
+    {
+      "Sid": "ReadModelKeyForAnswerCheck",
+      "Effect": "Allow",
+      "Action": "ssm:GetParameter",
+      "Resource": "arn:aws:ssm:us-east-1:ACCOUNT_ID:parameter/sam10/LLM_API_KEY"
+    }
+  ]
+}

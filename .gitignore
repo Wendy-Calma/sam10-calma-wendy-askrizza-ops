@@ -1,0 +1,10 @@
+.env
+.env.*
+*.pem
+*.key
+*.archive.gz
+*.zip
+secrets*
+evidence/raw/
+.DS_Store
+__pycache__/

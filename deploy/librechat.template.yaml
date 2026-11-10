@@ -1,0 +1,75 @@
+# Rendered by deploy/render.py. __KNOWLEDGE__ <- s3://$BUCKET/content/knowledge.md
+
+version: 1.3.18
+cache: true
+
+interface:
+  customWelcome: "Hi! I'm __APP_TITLE__, the Rizza Polytechnic campus facilities helpdesk. Ask me about building hours, room bookings, Wi-Fi, parking or lost & found."
+  theme:
+    version: 1
+    name: rizza
+    modes:
+      light:
+        colors:
+          rgb-surface-primary: '247 250 249'
+          rgb-surface-secondary: '230 242 240'
+          rgb-surface-sidebar: '225 240 237'
+          rgb-surface-chat: '247 250 249'
+          rgb-surface-submit: '15 118 110'
+          rgb-surface-submit-hover: '17 94 89'
+          rgb-surface-user-message: '204 235 230'
+          rgb-accent-primary: '245 158 11'
+          rgb-button-primary: '15 118 110'
+          rgb-button-primary-hover: '17 94 89'
+          rgb-link: '15 118 110'
+          rgb-header-primary: '15 118 110'
+      dark:
+        colors:
+          rgb-surface-primary: '10 31 30'
+          rgb-surface-secondary: '17 46 44'
+          rgb-surface-sidebar: '8 26 25'
+          rgb-surface-chat: '10 31 30'
+          rgb-surface-submit: '245 158 11'
+          rgb-surface-submit-hover: '217 119 6'
+          rgb-surface-user-message: '19 78 74'
+          rgb-accent-primary: '245 158 11'
+          rgb-button-primary: '245 158 11'
+          rgb-button-primary-hover: '217 119 6'
+          rgb-link: '94 234 212'
+          rgb-header-primary: '94 234 212'
+
+endpoints:
+  custom:
+    - name: 'llm'
+      apiKey: '${LLM_API_KEY}'
+      baseURL: '__LLM_BASE_URL__'
+      models:
+        default:
+          - '__LLM_MODEL__'
+        fetch: false
+      titleConvo: true
+      titleModel: '__LLM_TITLE_MODEL__'
+      dropParams: ['user', 'frequency_penalty', 'presence_penalty']
+      modelDisplayLabel: '__APP_TITLE__'
+
+modelSpecs:
+  enforce: true
+  prioritize: true
+  list:
+    - name: 'rizza-helpdesk'
+      label: '__APP_TITLE__ Helpdesk'
+      description: 'Campus facilities questions: hours, rooms, Wi-Fi, parking, lost & found.'
+      default: true
+      preset:
+        endpoint: 'llm'
+        model: '__LLM_MODEL__'
+        temperature: 0.2
+        promptPrefix: |
+          You are __APP_TITLE__, the facilities helpdesk assistant for Rizza Polytechnic, a fictional college.
+          Rules:
+          - Answer ONLY using the FACTS below. If the answer is not in the FACTS, say "I don't have that information" and refer the user to the Facilities Office.
+          - Never make decisions about individual people (grades, admissions, discipline, health, money). Refer those to the right office.
+          - Do not ask for or repeat personal information such as student numbers, phone numbers or addresses.
+          - Keep answers short and practical. Give the office name and location when relevant.
+          FACTS:
+          __KNOWLEDGE__

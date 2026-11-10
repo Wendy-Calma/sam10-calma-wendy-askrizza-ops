@@ -1,0 +1,45 @@
+# Secrets are injected from the shell environment (SSM), not from files.
+
+services:
+  api:
+    environment:
+      - CREDS_KEY=${CREDS_KEY}
+      - CREDS_IV=${CREDS_IV}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - LLM_API_KEY=${LLM_API_KEY}
+    volumes:
+      - type: bind
+        source: ./librechat.yaml
+        target: /app/librechat.yaml
+      - type: bind
+        source: ./branding/logo.svg
+        target: /app/client/dist/assets/logo.svg
+        read_only: true
+
+  # admin panel not used
+  admin-panel:
+    profiles: ["disabled"]
+
+  caddy:
+    image: docker.io/library/caddy:2
+    container_name: caddy
+    restart: always
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - SITE_DOMAIN=${SITE_DOMAIN}
+      - APP_VERSION=${APP_VERSION}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./logs/caddy:/var/log/caddy
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
