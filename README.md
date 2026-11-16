@@ -31,6 +31,8 @@ This repository contains **only my own deployment, configuration, content and op
 | `scripts/aws-setup.sh` | One-time AWS setup (S3, SNS, SSM secrets). Run in CloudShell |
 | `scripts/backup.sh`, `scripts/install-automation.sh` | Automation 1: hourly MongoDB dump to S3 (cron) |
 | `scripts/restore.sh` | Restore MongoDB from S3 (prints timings for RTO) |
+| `scripts/monitoring-setup.py` | CloudWatch metric filters, dashboard and alarms. Run in CloudShell |
+| `scripts/pii-check.sh` | Scans user messages for emails and phone numbers before they reach the model provider |
 | `lambda/healthcheck.py` | Automation 2: external health + answer check every 15 min (EventBridge to Lambda) |
 | `monitoring/cwagent.json` | CloudWatch agent: memory/disk metrics and log shipping |
 | `iam/*.json` | Least-privilege inline policies for the EC2 role and the Lambda role |

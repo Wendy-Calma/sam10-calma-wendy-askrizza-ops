@@ -1,0 +1,16 @@
+title: AskRizza
+description: >-
+  SAM10 final project: a reskinned LibreChat helpdesk for the fictional
+  Rizza Polytechnic, deployed and operated on AWS.
+theme: minima
+header_pages:
+  - index.md
+  - infrastructure.md
+  - system.md
+  - baseline.md
+  - well-architected.md
+  - operations.md
+  - automation-incident.md
+  - results.md
+  - next-steps.md
+  - declaration.md

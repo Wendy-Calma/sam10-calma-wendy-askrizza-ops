@@ -1,0 +1,44 @@
+---
+layout: page
+title: Results
+permalink: /results.html
+---
+
+## Before and after
+
+| Measure | Before (first deploy, 16 Nov 03:06 UTC) | After (✏️ date/time) | How measured |
+|---|---|---|---|
+| Healthy containers | 4 of 6 (2 crash-looping) | **4 of 4** | `docker compose ps` |
+| Alarms | 0 | **7** | CloudWatch → Alarms |
+| Time to detect an outage | unknown (no monitoring) | **1 min 37 s** | Test outage, 16 Nov 04:10 UTC |
+| Backups / RPO | none / everything lost | hourly / **≤ 1 hour** | `backup.sh` log |
+| Restore / RTO | never tested | **~40 s** tested | Restore test, 16 Nov 04:20 UTC |
+| Secrets on disk or in repo | generated into `.env.temp` | **0**, all 6 in SSM | `grep` of `.env`, SSM list |
+| Open inbound ports | n/a | 80, 443 only (no SSH) | Security group |
+| Public registration | open | **closed** | Login page |
+| Answer quality | not measured | ✏️ X/10, plus continuous AnswerCheckOK | Test questions, Lambda |
+
+## Measured over equal periods
+Measure **the same thing, the same way, over the same length of time** on both sides, and put the date range next to every number.
+
+✏️ *Pick two equal windows, e.g. 2 hours before a change and 2 hours after, or one day vs. the next. Fill in from the dashboard (Average stat):*
+
+| Metric | Window A (✏️ dates/times) | Window B (✏️ dates/times) |
+|---|---|---|
+| Availability: HealthCheckOK, % of checks = 1 | | |
+| Site response time: HealthLatencyMs, average | | |
+| AI response time: AnswerLatencyMs, average | | |
+| HTTP 5xx count | | |
+| CPU average / max | | |
+| Memory average | | |
+
+✏️ *Insert one graph (a dashboard widget screenshot) with its date range in the caption.*
+
+## Cost
+
+| | Amount | Period / source |
+|---|---|---|
+| Account spend before AskRizza existed | **$25.61** month-to-date (forecast $61.94) | 1–16 Nov 2026, AWS Budgets |
+| AskRizza estimated running cost | about **$2.10/day**: c7i-flex.large ~$2.04 + Elastic IP $0.12 + 30 GB gp3 ~$0.08. S3, Lambda, CloudWatch ≈ $0 at this size. | AWS on-demand prices, us-east-1 |
+| AskRizza actual cost | ✏️ $… | ✏️ Cost Explorer, filter tag `Project=SAM10`, date range … (data lags ~24 h) |
+| Model cost | $0 | Gemini API free tier |
