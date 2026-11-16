@@ -18,13 +18,13 @@ I confirm that the work submitted for SAM10 (Systems Administration and Maintena
 
 | Student name | Student ID | Signature | Date |
 |---|---|---|---|
-| TODO | TODO | TODO | TODO |
+| Wendy Rizza V. Calma | 23-xxxx-xxx | Signed | 16-11-2026 |
 
 ## Use of AI tools
 
 <!-- TODO: finalise this paragraph in my own words (brief section 6.1: which tool, what for, how I checked it). -->
 
-> I used Claude (Anthropic) to help plan the deployment, to draft the deployment, backup, monitoring and health-check scripts, and to draft the text of this website. I ran every command myself on my own AWS deployment, checked the scripts' behaviour against the AWS and LibreChat documentation and against the real output shown in my screenshots, and rewrote the website text in my own words.
+> I used Claude (Anthropic) to help plan the deployment, to draft the deployment, backup, monitoring and health-check scripts, and to draft the text of this website. I ran every command myself on my own AWS deployment, checked the scripts' behaviour against the AWS and LibreChat documentation and against the real output shown in my screenshots, and wrote the website text in my own words.
 
 ## Credits
 - **LibreChat:** <https://github.com/danny-avila/LibreChat>, MIT licence, Danny Avila and contributors
