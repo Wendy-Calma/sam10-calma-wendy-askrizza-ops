@@ -47,7 +47,7 @@ Four trickier questions, asked in a new chat on 16 Nov 2026. They need reasoning
 
 ![Harder questions](assets/img/36-harder-questions.png)
 
-**The failure (question 11):** the facts say the gym is open "Mon–Sat 06:00–20:00". The correct answer is that it is closed on Sunday. AskRizza said it didn't have the information instead. The system prompt tells it to refuse whenever an answer isn't written in the facts, and the model treated "Sunday isn't mentioned" as "not in the facts". **It fails safe:** it doesn't invent an answer, but it is less helpful than it could be. A fix would be to list closed days explicitly in `knowledge.md` ("Closed Sunday"), as the library entry already does.
+**The failure (question 11):** the facts say the gym is open "Mon–Sat 06:00–20:00". The correct answer is that it is closed on Sunday. AskRizza said it didn't have the information instead. The system prompt tells it to refuse whenever an answer isn't written in the facts, and the model treated "Sunday isn't mentioned" as "not in the facts". **It fails safe:** it doesn't invent an answer, but it is less helpful than it could be. **Fix:** I added "Closed Sunday and public holidays." to the gym entry in `content/knowledge.md`, uploaded it to S3 and redeployed (✏️ *time*). Asked again, AskRizza answered: ✏️ *paste the new answer and add the screenshot `assets/img/37-gym-after-fix.png`*. Because the content goes through S3 → `start.sh` → system prompt, this is the normal way to correct the assistant's knowledge. No code change is needed.
 
 **Overall: 13 of 14 correct** (10/10 simple, 3/4 harder).
 
