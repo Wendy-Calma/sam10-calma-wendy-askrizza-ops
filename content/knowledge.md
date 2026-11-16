@@ -10,7 +10,7 @@ All names, places, numbers and people below are invented for a student project. 
 ## Building hours
 - Library (Building L): Mon-Fri 07:30-21:00, Sat 08:00-17:00, closed Sunday and public holidays. During final exam week (the last two weeks of each term) it is open until 23:00 Mon-Sat.
 - Engineering Labs (Building E): Mon-Fri 08:00-20:00. Weekend access only with a lab-access request approved by the department, submitted at least 2 working days before.
-- Gym and Sports Hall (Building G): Mon-Sat 06:00-20:00. Bring a valid school ID. Towels are not provided.
+- Gym and Sports Hall (Building G): Mon-Sat 06:00-20:00. Closed Sunday and public holidays. Bring a valid school ID. Towels are not provided.
 - Canteen (Building C): Mon-Fri 07:00-19:00, Sat 07:00-14:00.
 - Admin Building (Building A): Mon-Fri 08:00-17:00.
 
