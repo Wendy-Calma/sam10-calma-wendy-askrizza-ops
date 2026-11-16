@@ -34,5 +34,7 @@ echo "[start] starting containers"
 cd "$LC_DIR"
 docker compose pull --quiet
 docker compose up -d --remove-orphans
+# .env, librechat.yaml and Caddyfile are bind-mounted and only read at startup
+docker compose restart api caddy
 docker compose ps
 echo "[start] done: https://$SITE_DOMAIN  (version $APP_VERSION)"
