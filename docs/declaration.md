@@ -18,11 +18,11 @@ I confirm that the work submitted for SAM10 (Systems Administration and Maintena
 
 | Student name | Student ID | Signature | Date |
 |---|---|---|---|
-| ✏️ | ✏️ | ✏️ | ✏️ |
+| TODO | TODO | TODO | TODO |
 
 ## Use of AI tools
 
-✏️ *Required by section 6.1 of the brief. Say which tool, what for, and how you checked its output, in your own words. For example:*
+<!-- TODO: finalise this paragraph in my own words (brief section 6.1: which tool, what for, how I checked it). -->
 
 > I used Claude (Anthropic) to help plan the deployment, to draft the deployment, backup, monitoring and health-check scripts, and to draft the text of this website. I ran every command myself on my own AWS deployment, checked the scripts' behaviour against the AWS and LibreChat documentation and against the real output shown in my screenshots, and rewrote the website text in my own words.
 

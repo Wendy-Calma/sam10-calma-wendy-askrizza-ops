@@ -18,14 +18,18 @@ Both automations live in the repository with real commits. The [README](https://
 ![Health-check Lambda test](assets/img/19-lambda-test-result.png)
 
 ## Unattended runs
-✏️ *Insert screenshots of (a) CloudWatch Logs `/sam10/automation`, showing several hourly `"job":"backup","result":"ok"` lines, and (b) `/aws/lambda/wendy-sam10-healthcheck`, showing several runs 15 minutes apart. Then list a few timestamps here:*
 
 | Automation | Unattended run timestamps (UTC) |
 |---|---|
 | Backup | **2026-11-16 04:05, 05:05, 06:05, 07:05, 08:05**: five unattended runs, all `"result":"ok"`, about 17–19 KB each, 1 s each. (03:29 and 04:20 were manual test runs.) |
-| Health check | ✏️ e.g. 2026-11-16 04:15, 04:30, 04:45 … |
+| Health check | **2026-11-16 06:59, 07:14, 07:29, 07:44, 07:59, 08:14, 08:29, 08:44, 08:59, 09:14** (every 15 min, on the dot at :24 s): 23 unattended runs since 04:00 |
 
 ![Backup automation: unattended hourly runs](assets/img/39-backup-unattended-runs.png)
+![Health-check automation: one log stream per run, 15 minutes apart](assets/img/42-healthcheck-unattended-runs.png)
+
+One unattended run in detail (09:14 UTC): the site answered `/health` in 349 ms, and the model answered the test question correctly ("RP-Student") in 732 ms.
+
+![Health-check run detail](assets/img/43-healthcheck-run-detail.png)
 
 ---
 
@@ -37,10 +41,10 @@ Both automations live in the repository with real commits. The [README](https://
 |---|---|
 | Started: first deploy; `chat-meilisearch` starts failing | **03:05:59** (first error in its log) |
 | Noticed: `start.sh` output shows `chat-meilisearch  Restarting (1)` | ~03:06 |
-| Diagnosed: `docker logs` plus folder ownership | ✏️ ~03:1x |
-| Fixed: `chown`, all containers Up | ✏️ ~03:1x |
+| Diagnosed: `docker logs` plus folder ownership (the last error shown was 03:08:40) | ~03:09 |
+| Fixed: `chown`, then redeployed; Meilisearch running ever since (`docker inspect … StartedAt`) | **03:12:24** |
 
-**Time to detect:** under 1 minute, by reading the deploy output. **This was before monitoring existed.** Today the CPU or 5xx alarms would also catch it. **Time to fix:** ✏️ about N minutes.
+**Time to detect:** under 1 minute, by reading the deploy output. **This was before monitoring existed.** Today the CPU or 5xx alarms would also catch it. **Time to fix: about 6.5 minutes** (03:05:59 → 03:12:24).
 
 **Effect:** chat search was down. MongoDB had the same fault waiting to happen: its data folder was also owned by root, so it would have failed as soon as it needed to write new files. That would have broken logins and chat history.
 
@@ -57,7 +61,8 @@ drwxrwxr-x 3 ubuntu ubuntu ... logs
 drwxr-xr-x 2 root   root   ... meili_data_v1.35.1
 drwxr-xr-x 2 root   root   ... uploads
 ```
-✏️ *Insert your screenshots of both outputs (E-15).*
+![First deploy: chat-meilisearch is Restarting](assets/img/48-first-deploy-meilisearch-restarting.png)
+![Diagnosis: Permission denied, folders owned by root](assets/img/49-meilisearch-permission-denied.png)
 
 ## Root cause
 LibreChat's compose file runs its containers as the app user (`user: "${UID}:${GID}"`, UID 1000), and stores their data in **bind-mounted folders** next to the compose file. On a fresh server those folders didn't exist yet. **Docker creates a missing bind-mount folder as `root`**, so the containers, running as UID 1000, couldn't write to their own data folders. Meilisearch exits with code 1 on its first write, and `restart: always` restarts it, so it loops forever.
@@ -78,10 +83,12 @@ MEILI_DIR="$(grep -o 'meili_data_v[0-9.]*' "$LC_DIR/docker-compose.yml" | head -
 mkdir -p "$LC_DIR/data-node" "$LC_DIR/images" "$LC_DIR/uploads" "$LC_DIR/$MEILI_DIR" ...
 ```
 
-**Evidence it works:** ✏️ *Run this on the server and screenshot it. It removes an empty data folder, redeploys, and shows the folder is recreated owned by `ubuntu`, not root:*
+**Evidence it works (16 Nov 2026, 09:33 UTC):** I removed the empty `images` data folder and redeployed. `start.sh` recreated it **owned by `ubuntu`, not root**, before Docker could create it. All 4 containers stayed up.
 ```bash
 cd /opt/app/LibreChat && ls -A images && rmdir images && /opt/app/askrizza/deploy/start.sh >/dev/null && ls -ld images
 ```
+
+![Prevention verified: the folder is recreated as ubuntu](assets/img/47-prevention-proof.png)
 
 ## Related findings during the same deploy
 - **rag_api crash-loop** (`Missing credentials… OPENAI_API_KEY`). Document search needs an OpenAI embeddings key that this project doesn't have and doesn't need. Fixed by disabling `rag_api` and `vectordb` with a compose profile.
@@ -122,7 +129,9 @@ A row says `Restarting (n)`, not `Up`.
 **6. How to undo it.** `chown` and `start.sh` are safe to repeat. If a deploy makes things worse, check out the previous commit (`git -C /opt/app/askrizza checkout <previous-commit>`) and run `start.sh` again.
 
 **7. Gotchas.**
-- **Never run `docker compose up` on its own.** It recreates containers **without the secrets** and the domain, which only `start.sh` loads from SSM. Caddy then crash-loops and LibreChat starts with no keys. (`docker compose ps`, `logs`, `restart`, and `docker start/stop` are safe.)
+- **Never run `docker compose up` on its own.** It recreates containers **without the secrets** and the domain, which only `start.sh` loads from SSM. Caddy then crash-loops and LibreChat starts with no keys. (`docker compose ps`, `logs`, `restart`, and `docker start/stop` are safe.) This happened once during the incident fix (screenshot below: `SITE_DOMAIN variable is not set`, caddy `Restarting`). Re-running `start.sh` fixed it.
+
+  ![Running compose up directly: Caddy loses its settings](assets/img/50-after-chown-before-start-sh.png)
 - Config and content changes only apply after the app restarts, which `start.sh` does.
 - Docker commands go in the **server** terminal (`ubuntu@ip-…`), not CloudShell.
 - Content changes must go **official repo → S3 (CloudShell `aws s3 cp`) → `start.sh`**, then be tested in a **new** chat. Existing chats keep the old system prompt.

@@ -6,7 +6,7 @@ permalink: /results.html
 
 ## Before and after
 
-| Measure | Before (first deploy, 16 Nov 03:06 UTC) | After (✏️ date/time) | How measured |
+| Measure | Before (first deploy, 16 Nov 03:06 UTC) | After (16 Nov 2026) | How measured |
 |---|---|---|---|
 | Healthy containers | 4 of 6 (2 crash-looping) | **4 of 4** | `docker compose ps` |
 | Alarms | 0 | **7** | CloudWatch → Alarms |
@@ -21,9 +21,9 @@ permalink: /results.html
 ## Measured over equal periods
 Measure **the same thing, the same way, over the same length of time** on both sides, and put the date range next to every number.
 
-✏️ *Pick two equal windows, e.g. 2 hours before a change and 2 hours after, or one day vs. the next. Fill in from the dashboard (Average stat):*
+<!-- TODO: fill in two equal windows from the dashboard (Average stat). -->
 
-| Metric | Window A (✏️ dates/times) | Window B (✏️ dates/times) |
+| Metric | Window A (TODO) | Window B (TODO) |
 |---|---|---|
 | Availability: HealthCheckOK, % of checks = 1 | | |
 | Site response time: HealthLatencyMs, average | | |
@@ -32,7 +32,7 @@ Measure **the same thing, the same way, over the same length of time** on both s
 | CPU average / max | | |
 | Memory average | | |
 
-✏️ *Insert one graph (a dashboard widget screenshot) with its date range in the caption.*
+<!-- TODO: add one dashboard graph with its date range in the caption. -->
 
 ## Cost
 
@@ -40,5 +40,5 @@ Measure **the same thing, the same way, over the same length of time** on both s
 |---|---|---|
 | Account spend before AskRizza existed | **$25.61** month-to-date (forecast $61.94) | 1–16 Nov 2026, AWS Budgets |
 | AskRizza estimated running cost | about **$2.10/day**: c7i-flex.large ~$2.04 + Elastic IP $0.12 + 30 GB gp3 ~$0.08. S3, Lambda, CloudWatch ≈ $0 at this size. | AWS on-demand prices, us-east-1 |
-| AskRizza actual cost | ✏️ $… | ✏️ Cost Explorer, filter tag `Project=SAM10`, date range … (data lags ~24 h) |
+| AskRizza actual cost | TODO | Cost Explorer, tag `Project=SAM10` (TODO: date range) |
 | Model cost | $0 | Gemini API free tier |

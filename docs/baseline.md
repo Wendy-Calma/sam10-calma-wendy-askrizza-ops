@@ -21,7 +21,8 @@ This page records the system **before I hardened and operated it**, as first dep
 
 ![First deploy: containers started](assets/img/12-start-sh-containers-up.png)
 
-✏️ *Add the screenshot of the first `start.sh` output where `chat-meilisearch` shows `Restarting (1)`, and the `docker logs chat-meilisearch` output with "Permission denied".*
+![First deploy: chat-meilisearch Restarting (1)](assets/img/48-first-deploy-meilisearch-restarting.png)
+![Meilisearch log: Permission denied](assets/img/49-meilisearch-permission-denied.png)
 
 ![Registration open to anyone](assets/img/13-login-signup-open.png)
 

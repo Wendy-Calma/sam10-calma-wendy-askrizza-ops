@@ -48,7 +48,7 @@ Verdicts are **good**, **adequate** or **gap**.
 - **AskRizza does:**
   - chose c7i-flex.large (4 GiB), the smallest Free-plan-eligible type with enough memory for the containers. t3.small (2 GiB) was too small, and t3.medium wasn't allowed on the plan.
   - measures `/health` latency (~330–375 ms) and AI answer latency (~0.5–1 s) every 15 min
-- **Verdict: adequate.** ✏️ Add the average CPU and memory from the dashboard. If they're low, the instance is oversized.
+- **Verdict: adequate, but oversized.** The dashboard shows CPU around 1–2% in normal use (peak about 27% only during the first deploy) and memory around 27% of 4 GiB (about 1.1 GiB) over 16 Nov 2026, 03:00–09:30 UTC. The instance is larger than this load needs. A 2 GiB instance would probably fit at this traffic, at about a quarter of the cost, but with little headroom for traffic spikes or LibreChat upgrades. I kept 4 GiB as a deliberate trade-off for stability during the project.
 
 ## Cost Optimization
 - **Framework asks:** pay only for what you use, and make cost visible.
@@ -63,4 +63,4 @@ Verdicts are **good**, **adequate** or **gap**.
 ## The gap I would fix first
 **Reliability: the single instance.** It's the only failure that would take AskRizza down for a long time with no automatic recovery. The cheapest fix is an EC2 **auto-recovery alarm action** on `StatusCheckFailed_System`, plus a nightly EBS snapshot through Data Lifecycle Manager. Together these recover from a host failure without a second server. A second instance behind a load balancer would fix it properly, but it would double the cost.
 
-✏️ *Optional, earns the same credit: record these answers in the free Well-Architected Tool in the console and link its PDF report here.*
+<!-- Optional: record these answers in the Well-Architected Tool and link its PDF report here. -->

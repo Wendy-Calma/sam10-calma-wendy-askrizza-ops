@@ -7,7 +7,14 @@ permalink: /operations.html
 # Monitoring
 
 ## Dashboard
-✏️ *Insert a screenshot of the populated **AskRizza** dashboard (CloudWatch → Dashboards → AskRizza), E-06.*
+![AskRizza dashboard, 12 hours to 16 Nov 2026 09:30 UTC](assets/img/44-dashboard.png)
+
+What the 12 hours to 16 Nov 2026 09:30 UTC show (data starts when monitoring was set up, about 03:00):
+- **Errors:** the only spike is at about **04:10**, my deliberate outage test. HTTP 5xx rose to 12 in that interval, and one health check failed. After that, zero.
+- **CPU:** a peak of about 27% at about 03:10 while the containers were first downloaded and started, then about 1–2%.
+- **Memory** is steady at about 27% and **disk** at about 45%.
+- **Response time:** `/health` about 0.35 s. AI answers are usually 0.5–1 s, with occasional slow calls up to about 5 s.
+- **Requests:** the spikes are my own testing.
 
 | Widget | Source |
 |---|---|
@@ -59,7 +66,26 @@ Every log group has a retention period (none set to "Never expire"): 2 weeks for
 
 ![Log groups with retention](assets/img/32-log-groups-retention.png)
 
-✏️ *Insert a screenshot of a few lines from `/sam10/caddy` in CloudWatch Logs (E-09).*
+One request from `/sam10/caddy` (the health check at 09:29:23 UTC, trimmed):
+
+```json
+{
+  "ts": 1794821363.468672,
+  "msg": "handled request",
+  "request": {
+    "remote_ip": "3.93.191.6",
+    "method": "GET",
+    "host": "askrizza.duckdns.org",
+    "uri": "/health",
+    "headers": { "User-Agent": ["Python-urllib/3.12"] }
+  },
+  "duration": 0.002015087,
+  "status": 200,
+  "resp_headers": { "X-App-Version": ["v1.0.0"] }
+}
+```
+
+![Request log in CloudWatch (my own IP address blacked out)](assets/img/45-caddy-request-log.png)
 
 ---
 
@@ -99,7 +125,7 @@ Every log group has a retention period (none set to "Never expire"): 2 weeks for
 | Control | Before | After | Risk it addresses |
 |---|---|---|---|
 | MFA on IAM user | Off | **On (virtual)** | A stolen password alone can't access the account. |
-| Personal IAM user, no root | Root not used | Own IAM user `wendy`. Root is the instructor's, ✏️ *MFA confirmed by instructor?* | Every action is traceable to one person. |
+| Personal IAM user, no root | Root not used | Own IAM user `wendy`. Root is the instructor's <!-- TODO: add the instructor's confirmation that root has MFA. --> | Every action is traceable to one person. |
 | Secrets | Generated into a file on disk | **6 SSM SecureStrings**, read at deploy time. None in code, config files or git history. | A leaked repository or disk image exposes no keys. |
 | Least privilege | n/a | EC2 role: only `/sam10/*` parameters, one bucket, one SNS topic. Lambda: only PutMetricData (namespace SAM10) and one parameter. | A compromised server or function can't touch anything else. |
 | Network | n/a | Only 80/443 open. **No SSH**: Session Manager only. MongoDB is never exposed. | No password-guessing on SSH. The database isn't reachable from the internet. |
@@ -116,7 +142,7 @@ Every log group has a retention period (none set to "Never expire"): 2 weeks for
 ![EBS default encryption](assets/img/07-ebs-encryption-enabled.png)
 ![Registration closed](assets/img/15-login-signup-closed.png)
 
-✏️ *Add: a screenshot of the `sam10-web` security group inbound rules (80 and 443 only).*
+![Security group sam10-web: inbound HTTPS 443 and HTTP 80 only, no SSH](assets/img/46-security-group-inbound.png)
 ![Personal-data check: clean](assets/img/38-pii-check-and-redeploy.png)
 
-✏️ *Add: the output of a secret scan of the repository, e.g. `gitleaks detect`, showing no leaks.*
+<!-- TODO: add a secret-scan result for the repository (e.g. gitleaks detect). -->

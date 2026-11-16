@@ -4,9 +4,9 @@ title: Summary
 permalink: /
 ---
 
-> ✏️ **DRAFT.** Rewrite every page in your own words before submitting, and delete these ✏️ notes.
+<!-- TODO: rewrite every page in my own words, then remove all TODO notes before submitting. -->
 
-<!-- ✏️ Replace VIDEO_ID with your YouTube video's ID (the part after watch?v=) -->
+<!-- TODO: replace VIDEO_ID with my YouTube video ID (the part after watch?v=). -->
 <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;margin-bottom:1.5em">
 <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="AskRizza presentation"
  style="position:absolute;top:0;left:0;width:100%;height:100%;border:0" allowfullscreen></iframe>

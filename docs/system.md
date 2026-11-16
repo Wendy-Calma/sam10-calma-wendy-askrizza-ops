@@ -8,9 +8,16 @@ permalink: /system.html
 
 | Original LibreChat | AskRizza |
 |---|---|
-| ✏️ *Insert your local stock LibreChat screenshot (E-05) here:* `assets/img/00-stock-librechat.png` | ![AskRizza](assets/img/14-chat-test-questions.png) |
+| ![Stock LibreChat](assets/img/00-stock-librechat.png) | ![AskRizza](assets/img/14-chat-test-questions.png) |
 
-![Login page with the AskRizza logo and colours](assets/img/15-login-signup-closed.png)
+| Original sign-up page | AskRizza login (registration closed) |
+|---|---|
+| ![Stock LibreChat sign-up](assets/img/52-stock-register.png) | ![AskRizza login](assets/img/15-login-signup-closed.png) |
+
+## Base system running locally
+Before building anything on AWS, I ran unmodified LibreChat on my laptop with Docker Desktop, using its own `docker compose up -d` and default `.env.example` (16 Nov 2026). It started 7 containers (including the admin panel, rag_api and pgvector, which AskRizza later disables) and served the stock interface at `http://localhost:3080`, with the default branding, "Every AI for Everyone", and an OpenAI model menu.
+
+![Stock LibreChat running locally with Docker](assets/img/51-stock-local-run.png)
 
 ## Test questions
 
