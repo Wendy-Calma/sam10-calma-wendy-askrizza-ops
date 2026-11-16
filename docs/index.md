@@ -38,6 +38,7 @@ The first deployment of the stock application ([baseline](baseline.html)) worked
 | Security | MFA, least-privilege IAM roles, **all secrets in SSM Parameter Store**, no SSH port, registration closed, CloudTrail, encrypted disk |
 | Automation | Hourly backup (cron) and an external health and answer check every 15 min (EventBridge + Lambda) |
 | Reliability | Data-folder ownership fault found, fixed and prevented. Unused services removed, so **4/4 containers are healthy**. |
+| Quality | **13 of 14** test questions answered correctly. The one miss fails safe: it said "I don't know" rather than inventing an answer. |
 
 ## What improved
 

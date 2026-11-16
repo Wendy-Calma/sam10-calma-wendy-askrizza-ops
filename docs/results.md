@@ -16,7 +16,7 @@ permalink: /results.html
 | Secrets on disk or in repo | generated into `.env.temp` | **0**, all 6 in SSM | `grep` of `.env`, SSM list |
 | Open inbound ports | n/a | 80, 443 only (no SSH) | Security group |
 | Public registration | open | **closed** | Login page |
-| Answer quality | not measured | ✏️ X/10, plus continuous AnswerCheckOK | Test questions, Lambda |
+| Answer quality | not measured | **13/14** test questions (10/10 simple, 3/4 harder), plus a continuous AnswerCheckOK | Test questions, Lambda |
 
 ## Measured over equal periods
 Measure **the same thing, the same way, over the same length of time** on both sides, and put the date range next to every number.

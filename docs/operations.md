@@ -55,6 +55,10 @@ Caddy writes one JSON line per request (time, method, URI, **status**, **duratio
 
 The health-check Lambda logs the **question asked, how long it took and whether it succeeded** for its test question in `/aws/lambda/wendy-sam10-healthcheck`.
 
+Every log group has a retention period (none set to "Never expire"): 2 weeks for request and app logs, 1 month for automation and Lambda logs.
+
+![Log groups with retention](assets/img/32-log-groups-retention.png)
+
 ✏️ *Insert a screenshot of a few lines from `/sam10/caddy` in CloudWatch Logs (E-09).*
 
 ---
