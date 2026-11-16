@@ -22,8 +22,10 @@ Both automations live in the repository with real commits. The [README](https://
 
 | Automation | Unattended run timestamps (UTC) |
 |---|---|
-| Backup | ✏️ e.g. 2026-11-16 05:05, 06:05, 07:05 … |
+| Backup | **2026-11-16 04:05, 05:05, 06:05, 07:05, 08:05**: five unattended runs, all `"result":"ok"`, about 17–19 KB each, 1 s each. (03:29 and 04:20 were manual test runs.) |
 | Health check | ✏️ e.g. 2026-11-16 04:15, 04:30, 04:45 … |
+
+![Backup automation: unattended hourly runs](assets/img/39-backup-unattended-runs.png)
 
 ---
 
@@ -123,6 +125,9 @@ A row says `Restarting (n)`, not `Up`.
 - **Never run `docker compose up` on its own.** It recreates containers **without the secrets** and the domain, which only `start.sh` loads from SSM. Caddy then crash-loops and LibreChat starts with no keys. (`docker compose ps`, `logs`, `restart`, and `docker start/stop` are safe.)
 - Config and content changes only apply after the app restarts, which `start.sh` does.
 - Docker commands go in the **server** terminal (`ubuntu@ip-…`), not CloudShell.
+- Content changes must go **official repo → S3 (CloudShell `aws s3 cp`) → `start.sh`**, then be tested in a **new** chat. Existing chats keep the old system prompt.
+- Scripts committed from Windows lose the executable bit. Run `chmod +x deploy/*.sh scripts/*.sh` after a pull, or store the bit with `git update-index --chmod=+x`.
 
 **8. Change history.**
 - 16 Nov 2026: written after the Meilisearch permission incident. Added the "never run compose up directly" gotcha.
+- 16 Nov 2026: added the content-pipeline and executable-bit gotchas.

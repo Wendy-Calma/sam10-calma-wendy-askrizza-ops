@@ -104,7 +104,7 @@ Every log group has a retention period (none set to "Never expire"): 2 weeks for
 | Least privilege | n/a | EC2 role: only `/sam10/*` parameters, one bucket, one SNS topic. Lambda: only PutMetricData (namespace SAM10) and one parameter. | A compromised server or function can't touch anything else. |
 | Network | n/a | Only 80/443 open. **No SSH**: Session Manager only. MongoDB is never exposed. | No password-guessing on SSH. The database isn't reachable from the internet. |
 | Registration | **Open to anyone** | **Closed** | Strangers can't create accounts and use the AI quota. |
-| Personal data | n/a | All content invented. The system prompt forbids asking for personal data. `scripts/pii-check.sh` scans every user message in MongoDB for emails and phone numbers (✏️ *result: "clean", N messages, date*). | Nothing personal leaves the account for Google. |
+| Personal data | n/a | All content invented. The system prompt forbids asking for personal data. `scripts/pii-check.sh` scans every user message in MongoDB for emails and phone numbers Result on 16 Nov 2026 08:29 UTC: **14 user messages scanned, 0 emails, 0 phone numbers: clean.**. | Nothing personal leaves the account for Google. |
 | Audit trail | None | **CloudTrail** `sam10-trail`, multi-region | We can see who changed what, and when. |
 | Encryption at rest | Default off | **EBS default encryption on**. S3 SSE on. | Disks and backups are unreadable if copied. |
 | Threat detection | n/a | GuardDuty **not available** on the Free account plan (documented gap) | n/a |
@@ -117,4 +117,6 @@ Every log group has a retention period (none set to "Never expire"): 2 weeks for
 ![Registration closed](assets/img/15-login-signup-closed.png)
 
 ✏️ *Add: a screenshot of the `sam10-web` security group inbound rules (80 and 443 only).*
+![Personal-data check: clean](assets/img/38-pii-check-and-redeploy.png)
+
 ✏️ *Add: the output of a secret scan of the repository, e.g. `gitleaks detect`, showing no leaks.*

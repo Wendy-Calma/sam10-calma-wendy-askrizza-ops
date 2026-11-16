@@ -47,9 +47,14 @@ Four trickier questions, asked in a new chat on 16 Nov 2026. They need reasoning
 
 ![Harder questions](assets/img/36-harder-questions.png)
 
-**The failure (question 11):** the facts say the gym is open "Mon–Sat 06:00–20:00". The correct answer is that it is closed on Sunday. AskRizza said it didn't have the information instead. The system prompt tells it to refuse whenever an answer isn't written in the facts, and the model treated "Sunday isn't mentioned" as "not in the facts". **It fails safe:** it doesn't invent an answer, but it is less helpful than it could be. **Fix:** I added "Closed Sunday and public holidays." to the gym entry in `content/knowledge.md`, uploaded it to S3 and redeployed (✏️ *time*). Asked again, AskRizza answered: ✏️ *paste the new answer and add the screenshot `assets/img/37-gym-after-fix.png`*. Because the content goes through S3 → `start.sh` → system prompt, this is the normal way to correct the assistant's knowledge. No code change is needed.
+**The failure (question 11):** the facts say the gym is open "Mon–Sat 06:00–20:00". The correct answer is that it is closed on Sunday. AskRizza said it didn't have the information instead. The system prompt tells it to refuse whenever an answer isn't written in the facts, and the model treated "Sunday isn't mentioned" as "not in the facts". **It fails safe:** it doesn't invent an answer, but it is less helpful than it could be. **Fix:** I added "Closed Sunday and public holidays." to the gym entry in `content/knowledge.md`, uploaded it to S3 and redeployed with `start.sh` (16 Nov 2026). In a **new** chat, AskRizza now answers: *"The Gym and Sports Hall (Building G) is closed on Sunday and public holidays."* Because the content goes through S3 → `start.sh` → system prompt, this is the normal way to correct the assistant's knowledge. No code change is needed.
 
-**Overall: 13 of 14 correct** (10/10 simple, 3/4 harder).
+![Redeploy: the new gym line is in the live config](assets/img/40-content-redeploy.png)
+![After the fix](assets/img/37-gym-after-fix.png)
+
+**Lesson:** the first attempt still failed, for two reasons. (1) The edit had been made in a draft copy, not the official repository, so the old file was uploaded to S3 again. (2) Re-asking in an **existing** chat keeps that chat's old instructions. The fix only reaches users through the full path: **repository → S3 → `start.sh` → a new conversation.**
+
+**Overall: 13 of 14 correct** (10/10 simple, 3/4 harder) before the fix; **14 of 14** after the content fix below.
 
 The health-check Lambda also asks one test question every 15 minutes and publishes **AnswerCheckOK**, so answer quality is measured continuously, not just once.
 
