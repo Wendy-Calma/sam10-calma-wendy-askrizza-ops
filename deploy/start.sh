@@ -24,7 +24,9 @@ python3 "$REPO_DIR/deploy/render.py" "$REPO_DIR/deploy/librechat.template.yaml" 
 rm -f /tmp/knowledge.md
 cp "$REPO_DIR/deploy/docker-compose.override.yml" "$LC_DIR/docker-compose.override.yml"
 cp "$REPO_DIR/deploy/Caddyfile" "$LC_DIR/Caddyfile"
-mkdir -p "$LC_DIR/branding" "$LC_DIR/logs/caddy"
+MEILI_DIR="$(grep -o 'meili_data_v[0-9.]*' "$LC_DIR/docker-compose.yml" | head -1)"
+mkdir -p "$LC_DIR/branding" "$LC_DIR/logs/caddy" "$LC_DIR/data-node" "$LC_DIR/images" \
+         "$LC_DIR/uploads" "$LC_DIR/$MEILI_DIR"
 cp "$REPO_DIR/branding/logo.svg" "$LC_DIR/branding/logo.svg"
 "$REPO_DIR/deploy/configure-env.sh" "$LC_DIR/.env"
 
