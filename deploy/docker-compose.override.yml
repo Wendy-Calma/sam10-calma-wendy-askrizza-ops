@@ -9,6 +9,11 @@ services:
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
       - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
       - LLM_API_KEY=${LLM_API_KEY}
+      - RAG_API_URL=
+    depends_on:
+      rag_api:
+        condition: service_started
+        required: false
     volumes:
       - type: bind
         source: ./librechat.yaml
@@ -18,8 +23,13 @@ services:
         target: /app/client/dist/assets/logo.svg
         read_only: true
 
-  # admin panel not used
+  # Not used: admin panel, and document RAG (needs an OpenAI embeddings key;
+  # AskRizza's knowledge comes from S3 via the system prompt instead).
   admin-panel:
+    profiles: ["disabled"]
+  rag_api:
+    profiles: ["disabled"]
+  vectordb:
     profiles: ["disabled"]
 
   caddy:
