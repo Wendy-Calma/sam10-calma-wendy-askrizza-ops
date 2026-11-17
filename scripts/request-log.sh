@@ -18,12 +18,14 @@ db.messages.find({ isCreatedByUser: true, createdAt: { \$gt: since, \$lte: until
   .sort({ createdAt: 1 }).toArray().forEach(q => {
     const r = db.messages.findOne({ parentMessageId: q.messageId, isCreatedByUser: false });
     const done = r ? (r.updatedAt || r.createdAt) : null;
+    const parts = (r && Array.isArray(r.content)) ? r.content : [];
+    const answer = ((r && r.text) || parts.map(c => typeof c.text === 'string' ? c.text : (c.text && c.text.value) || '').join(' ')).trim();
     print(JSON.stringify({
       ts: q.createdAt.toISOString(),
       event: 'question',
       question: (q.text || '').slice(0, 200),
       answered: !!r,
-      success: !!(r && !r.error && (r.text || '').trim().length > 0),
+      success: !!(r && !r.error && !r.unfinished && answer.length > 0),
       seconds: done ? Math.round((done - q.createdAt) / 100) / 10 : null,
       model: (r && r.model) || q.model || null,
       version: version
