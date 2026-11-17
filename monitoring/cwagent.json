@@ -1,14 +1,33 @@
 {
-  "agent": { "metrics_collection_interval": 60, "run_as_user": "root" },
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "root"
+  },
   "metrics": {
     "namespace": "CWAgent",
-    "append_dimensions": { "InstanceId": "${aws:InstanceId}" },
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}"
+    },
     "metrics_collected": {
-      "mem": { "measurement": ["mem_used_percent"] },
+      "mem": {
+        "measurement": [
+          "mem_used_percent"
+        ]
+      },
       "disk": {
-        "measurement": ["used_percent"],
-        "resources": ["/"],
-        "ignore_file_system_types": ["sysfs", "devtmpfs", "tmpfs", "overlay", "squashfs"]
+        "measurement": [
+          "used_percent"
+        ],
+        "resources": [
+          "/"
+        ],
+        "ignore_file_system_types": [
+          "sysfs",
+          "devtmpfs",
+          "tmpfs",
+          "overlay",
+          "squashfs"
+        ]
       }
     }
   },
@@ -39,6 +58,12 @@
             "log_group_name": "/sam10/automation",
             "log_stream_name": "{instance_id}",
             "retention_in_days": 30
+          },
+          {
+            "file_path": "/var/log/sam10/requests.log",
+            "log_group_name": "/sam10/requests",
+            "log_stream_name": "{instance_id}",
+            "retention_in_days": 14
           }
         ]
       }

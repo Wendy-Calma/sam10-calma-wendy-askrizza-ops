@@ -23,6 +23,14 @@ services:
         target: /app/client/dist/assets/logo.svg
         read_only: true
 
+  mongodb:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: us-east-1
+        awslogs-group: /sam10/mongodb
+        awslogs-create-group: "true"
+
   # Not used: admin panel, and document RAG (needs an OpenAI embeddings key;
   # AskRizza's knowledge comes from S3 via the system prompt instead).
   admin-panel:

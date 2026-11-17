@@ -24,6 +24,7 @@ mkdir -p /opt/app /var/log/sam10
 chown "$APP_USER:$APP_USER" /opt/app /var/log/sam10
 [ -d /opt/app/LibreChat ] || sudo -u "$APP_USER" git clone --depth 1 "$LIBRECHAT_URL" /opt/app/LibreChat
 [ -d /opt/app/askrizza ] || sudo -u "$APP_USER" git clone "$REPO_URL" /opt/app/askrizza
+sudo -u "$APP_USER" git -C /opt/app/askrizza config core.fileMode false
 chmod +x /opt/app/askrizza/deploy/*.sh /opt/app/askrizza/scripts/*.sh
 
 echo "[bootstrap] done"

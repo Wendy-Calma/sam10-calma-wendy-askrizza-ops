@@ -35,6 +35,13 @@ if not disk:
     raise SystemExit("disk_used_percent not found yet: is the CloudWatch agent running? Retry in 5 minutes.")
 disk_dims = disk[0]["Dimensions"]
 
+# --- retention on the database log group (created by Docker's awslogs driver) ---
+try:
+    aws("logs", "put-retention-policy", "--log-group-name", "/sam10/mongodb", "--retention-in-days", "14")
+    print("retention /sam10/mongodb 14 days")
+except subprocess.CalledProcessError:
+    print("note: /sam10/mongodb not created yet; redeploy, then run this again")
+
 # --- metric filters on the Caddy access log (one JSON line per request) ---
 for name, pattern in [("RequestCount", "{ $.status > 0 }"),
                       ("Error5xx", "{ $.status >= 500 }")]:
