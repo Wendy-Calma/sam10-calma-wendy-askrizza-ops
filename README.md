@@ -32,6 +32,8 @@ This repository contains **only my own deployment, configuration, content and op
 | `scripts/backup.sh`, `scripts/install-automation.sh` | Automation 1: hourly MongoDB dump to S3 (cron) |
 | `scripts/restore.sh` | Restore MongoDB from S3 (prints timings for RTO) |
 | `scripts/monitoring-setup.py` | CloudWatch metric filters, dashboard and alarms. Run in CloudShell |
+| `scripts/compare-windows.py` | Compares key metrics over two equal time windows (for before/after results). Run in CloudShell |
+| `scripts/request-log.sh` | Logs each student question (question, seconds to answer, success, model, version) to CloudWatch `/sam10/requests`, every 5 min |
 | `scripts/pii-check.sh` | Scans user messages for emails and phone numbers before they reach the model provider |
 | `lambda/healthcheck.py` | Automation 2: external health + answer check every 15 min (EventBridge to Lambda) |
 | `monitoring/cwagent.json` | CloudWatch agent: memory/disk metrics and log shipping |
@@ -42,7 +44,7 @@ This repository contains **only my own deployment, configuration, content and op
 
 1. **AWS setup** (CloudShell, us-east-1): edit `deploy/settings.env`, then run `bash scripts/aws-setup.sh <alert-email>` and confirm the SNS email.
 2. **IAM role** `sam10-ec2-role`: attach `AmazonSSMManagedInstanceCore`, `CloudWatchAgentServerPolicy`, and an inline policy from `iam/ec2-role-inline-policy.json` (replace ACCOUNT_ID and BUCKET).
-3. **EC2**: Ubuntu 24.04, t3.medium, 30 GB gp3 encrypted, role above, security group allowing only TCP 80 and 443 inbound, plus an Elastic IP. Point the DuckDNS name at the Elastic IP.
+3. **EC2**: Ubuntu 24.04, c7i-flex.large (the smallest type with 4 GiB allowed on the account's Free plan), 30 GB gp3 encrypted, role above, security group allowing only TCP 80 and 443 inbound, plus an Elastic IP. Point the DuckDNS name at the Elastic IP.
 4. **On the instance** (Session Manager):
    ```bash
    sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/Wendy-Calma/sam10-calma-wendy-askrizza-ops/main/deploy/bootstrap.sh)" _ https://github.com/Wendy-Calma/sam10-calma-wendy-askrizza-ops.git
@@ -51,17 +53,22 @@ This repository contains **only my own deployment, configuration, content and op
    sudo /opt/app/askrizza/scripts/install-automation.sh
    sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/app/askrizza/monitoring/cwagent.json
    ```
-5. **Lambda** `sam10-healthcheck` (Python 3.12) from `lambda/healthcheck.py`, scheduled every 15 minutes with EventBridge Scheduler.
+5. **Lambda** `wendy-sam10-healthcheck` (Python 3.12, handler `lambda_function.handler`, 30 s timeout) from `lambda/healthcheck.py`, with the inline policy from `iam/lambda-inline-policy.json` and the environment variables `SITE_URL`, `CHECK_ANSWER=true`, `LLM_BASE_URL` and `LLM_MODEL`. Trigger: EventBridge rule `rate(15 minutes)`.
+6. **Monitoring** (CloudShell): `python3 scripts/monitoring-setup.py` creates the metric filters, the `AskRizza` dashboard, the seven alarms and the database log retention.
 
 To change the assistant's knowledge, edit `content/knowledge.md`, upload it to `s3://BUCKET/content/`, and run `deploy/start.sh`.
 
-## Contribution log
+## Work log
 
-Solo project. Every entry is written at the time the work was done.
+Solo project. All work below is mine.
 
-| Date / time (local) | What I did |
+| Date (2026) | Work |
 |---|---|
-| 2026-11-16 | Read the brief. Chose LibreChat + Gemini, domain "campus facilities helpdesk", region us-east-1. Wrote deployment, backup and health-check code. |
+| 16 Nov | Chose LibreChat and Gemini; ran stock LibreChat locally; set up the AWS account guardrails (MFA, budget, CloudTrail, EBS encryption) |
+| 16 Nov | Deployed AskRizza to EC2 with HTTPS; reskin and campus content; secrets in Parameter Store |
+| 16 Nov | Fixed the Meilisearch permission incident; set up backups, the health-check Lambda, the CloudWatch dashboard and alarms |
+| 16 Nov | Outage drill, restore test, 14 test questions, gym content fix, secret scan, personal-data check |
+| 17 Nov | Equal-window comparison and cost; database and per-question request logs; project website |
 
 ## AI assistance declaration
 
