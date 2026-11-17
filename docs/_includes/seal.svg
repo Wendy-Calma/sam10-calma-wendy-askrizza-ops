@@ -1,0 +1,13 @@
+<svg class="seal" viewBox="0 0 120 120" role="img" aria-label="Rizza Polytechnic emblem">
+  <defs>
+    <path id="seal-ring-{{ include.id | default: 'a' }}" d="M60 60 m-44 0 a44 44 0 1 1 88 0 a44 44 0 1 1 -88 0"/>
+  </defs>
+  <circle cx="60" cy="60" r="57" fill="#FFF8FA" stroke="#A64D70" stroke-width="2"/>
+  <circle cx="60" cy="60" r="51" fill="none" stroke="#D98CA8" stroke-width="0.8"/>
+  <circle cx="60" cy="60" r="35" fill="#F7E8EE" stroke="#A64D70" stroke-width="1.2"/>
+  <text font-family="Inter, Helvetica, Arial, sans-serif" font-size="8.6" font-weight="600" letter-spacing="2.6" fill="#A64D70">
+    <textPath href="#seal-ring-{{ include.id | default: 'a' }}" startOffset="2%">RIZZA POLYTECHNIC · CAMPUS HELPDESK ·</textPath>
+  </text>
+  <text x="60" y="73" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="38" font-weight="700" fill="#382A34">R</text>
+  <path d="M60 30l1.6 3.6 3.9.4-2.9 2.6.8 3.8L60 38.5l-3.4 1.9.8-3.8-2.9-2.6 3.9-.4z" fill="#D98CA8"/>
+</svg>

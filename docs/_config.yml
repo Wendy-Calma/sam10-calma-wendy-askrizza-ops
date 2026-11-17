@@ -1,16 +1,14 @@
 title: AskRizza
+tagline: A campus helpdesk for Rizza Polytechnic
 description: >-
-  SAM10 final project: a reskinned LibreChat helpdesk for the fictional
-  Rizza Polytechnic, deployed and operated on AWS.
-theme: minima
-header_pages:
-  - index.md
-  - infrastructure.md
-  - system.md
-  - baseline.md
-  - well-architected.md
-  - operations.md
-  - automation-incident.md
-  - results.md
-  - next-steps.md
-  - declaration.md
+  AskRizza is a campus facilities helpdesk for Rizza Polytechnic, a fictional
+  college. Built on LibreChat, deployed and operated on AWS for my SAM10 final project.
+live_url: https://askrizza.duckdns.org
+repo_url: https://github.com/Wendy-Calma/sam10-calma-wendy-askrizza-ops
+markdown: kramdown
+kramdown:
+  input: GFM
+  parse_block_html: false
+  hard_wrap: false
+exclude:
+  - README.md

@@ -1,0 +1,25 @@
+---
+layout: default
+---
+{% assign nav = site.data.nav %}
+{% for item in nav %}{% if item.url == page.url %}{% assign cur = item %}{% assign idx = forloop.index0 %}{% endif %}{% endfor %}
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="eyebrow"><span class="eyebrow-no">{{ cur.num }}</span>{{ cur.label }}</p>
+    <h1>{{ page.title }}</h1>
+    {% if page.lede %}<p class="lede">{{ page.lede }}</p>{% endif %}
+  </div>
+</header>
+
+<article class="prose">
+{{ content }}
+</article>
+
+<nav class="pager" aria-label="Previous and next page">
+  {% if idx > 0 %}{% assign pidx = idx | minus: 1 %}{% assign prev = nav[pidx] %}
+  <a class="pager-prev" href="{{ prev.url | relative_url }}"><span>Previous · {{ prev.num }}</span>{{ prev.title }}</a>
+  {% else %}<span></span>{% endif %}
+  {% assign nidx = idx | plus: 1 %}{% if nidx < nav.size %}{% assign next = nav[nidx] %}
+  <a class="pager-next" href="{{ next.url | relative_url }}"><span>Next · {{ next.num }}</span>{{ next.title }}</a>
+  {% endif %}
+</nav>

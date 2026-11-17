@@ -1,0 +1,10 @@
+- { num: "01", title: "Summary",        url: "/",                         label: "Overview" }
+- { num: "02", title: "Infrastructure", url: "/infrastructure.html",      label: "Campus Technology" }
+- { num: "03", title: "System",         url: "/system.html",              label: "Student Services" }
+- { num: "04", title: "Baseline",       url: "/baseline.html",            label: "Where I Started" }
+- { num: "05", title: "Well-Architected", url: "/well-architected.html",  label: "Architecture Review" }
+- { num: "06", title: "Operations",     url: "/operations.html",          label: "System Operations" }
+- { num: "07", title: "Automation & Incident", url: "/automation-incident.html", label: "Reliability" }
+- { num: "08", title: "Results",        url: "/results.html",             label: "Results" }
+- { num: "09", title: "Next Steps",     url: "/next-steps.html",          label: "What Comes Next" }
+- { num: "10", title: "Declaration",    url: "/declaration.html",         label: "Declaration" }

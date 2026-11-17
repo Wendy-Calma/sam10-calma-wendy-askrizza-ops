@@ -1,0 +1,78 @@
+---
+layout: default
+title: Summary
+permalink: /
+video_id: ""   # YouTube ID of my presentation (the part after watch?v=)
+---
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      {% include seal.svg id="hero" %}
+      <p class="eyebrow">Rizza Polytechnic · Student Services</p>
+      <h1>AskRizza</h1>
+      <p class="hero-sub">A campus helpdesk for Rizza Polytechnic</p>
+      <p class="hero-intro">Making campus information easier to reach: building hours, rooms, Wi-Fi, parking and lost &amp; found, answered by a customised AI helpdesk.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="{{ site.live_url }}" target="_blank" rel="noopener">Open AskRizza <span aria-hidden="true">↗</span></a>
+        <a class="btn btn-ghost" href="{{ '/infrastructure.html' | relative_url }}">Read the documentation</a>
+      </div>
+      <p class="hero-note">Rizza Polytechnic is a fictional college, and all of its campus facts are invented.</p>
+    </div>
+    <div class="browser">
+      <div class="browser-bar"><i></i><i></i><i></i><span>askrizza.duckdns.org</span></div>
+      <img src="{{ '/assets/img/14-chat-test-questions.png' | relative_url }}" alt="AskRizza answering a question about the student Wi-Fi network, and declining a question it has no facts for" width="1910" height="997">
+    </div>
+  </div>
+</section>
+
+{% if page.video_id != "" %}
+<section class="band">
+  <p class="eyebrow">Presentation</p>
+  <h2>Seven minutes on how AskRizza runs</h2>
+  <div class="video"><iframe src="https://www.youtube.com/embed/{{ page.video_id }}" title="AskRizza presentation video" loading="lazy" allowfullscreen></iframe></div>
+</section>
+{% endif %}
+
+<section class="band">
+  <div class="home-split">
+    <div>
+      <p class="eyebrow">What it is</p>
+      <h2>A helpdesk that knows its campus, and knows its limits</h2>
+    </div>
+    <div>
+      <p>AskRizza answers practical questions from students of Rizza Polytechnic, using a short collection of campus facts that I wrote. When an answer isn't in those facts, it says so and points the student to the Facilities Office. It never makes decisions about individual people.</p>
+      <p>I didn't build a chatbot platform from scratch. AskRizza is <a href="https://github.com/danny-avila/LibreChat" target="_blank" rel="noopener">LibreChat</a> (MIT licence), reskinned with a new name, logo, colours, wording and campus content. The answers come from Google Gemini, which runs outside AWS. My work was the part around it: deploying it to AWS and running it properly.</p>
+      <ul class="facilities" aria-label="Topics AskRizza covers">
+        <li>Building hours</li><li>Room bookings</li><li>Campus Wi-Fi</li><li>Parking</li><li>Lockers</li><li>Lost &amp; found</li><li>Repairs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <p class="eyebrow">At a glance</p>
+  <h2>What running it properly looks like</h2>
+  <p class="band-intro">Each number is from a test or measurement I ran on 16–17 November 2026. The pages linked below have the evidence.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-value">1 min 37 s</div><div><p class="stat-label">Time to detect an outage</p><p>I stopped the app on purpose. A CloudWatch alarm emailed me 97 seconds later.</p></div></div>
+    <div class="stat"><div class="stat-value">~40 s</div><div><p class="stat-label">Measured restore time</p><p>I emptied the database, restored it from the hourly S3 backup, and logged back in to my old chats.</p></div></div>
+    <div class="stat"><div class="stat-value">7</div><div><p class="stat-label">CloudWatch alarms</p><p>Five watch the server. Two watch the product: is the site answering, and is the AI still answering correctly?</p></div></div>
+    <div class="stat"><div class="stat-value">100%</div><div><p class="stat-label">Availability, overnight steady state</p><p>24 of 24 external health checks passed between 16 Nov 19:00 and 17 Nov 01:00 UTC, with no errors.</p></div></div>
+    <div class="stat"><div class="stat-value">13 <small>of 14</small></div><div><p class="stat-label">Test questions answered correctly</p><p>On the first evaluation. The one miss was over-cautious rather than wrong, and a content fix corrected it.</p></div></div>
+  </div>
+</section>
+
+<section class="band">
+  <p class="eyebrow">The documentation</p>
+  <h2>Contents</h2>
+  <ol class="toc">
+    <li><a href="{{ '/infrastructure.html' | relative_url }}"><span class="no">02</span><span class="t">Infrastructure</span><span class="d">Where each part runs, and how a question travels</span></a></li>
+    <li><a href="{{ '/system.html' | relative_url }}"><span class="no">03</span><span class="t">System</span><span class="d">The reskin, test questions and the system card</span></a></li>
+    <li><a href="{{ '/baseline.html' | relative_url }}"><span class="no">04</span><span class="t">Baseline</span><span class="d">The first deployment, before I fixed anything</span></a></li>
+    <li><a href="{{ '/well-architected.html' | relative_url }}"><span class="no">05</span><span class="t">Well-Architected</span><span class="d">The six pillars, honestly scored</span></a></li>
+    <li><a href="{{ '/operations.html' | relative_url }}"><span class="no">06</span><span class="t">Operations</span><span class="d">Monitoring, backup and restore, security</span></a></li>
+    <li><a href="{{ '/automation-incident.html' | relative_url }}"><span class="no">07</span><span class="t">Automation &amp; Incident</span><span class="d">Two automations, one real incident and its runbook</span></a></li>
+    <li><a href="{{ '/results.html' | relative_url }}"><span class="no">08</span><span class="t">Results</span><span class="d">Before and after, measured the same way</span></a></li>
+    <li><a href="{{ '/next-steps.html' | relative_url }}"><span class="no">09</span><span class="t">Next Steps</span><span class="d">What's done, what's limited, what I'd do next</span></a></li>
+  </ol>
+</section>

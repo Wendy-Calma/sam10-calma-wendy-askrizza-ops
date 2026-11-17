@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.url == "/" %}AskRizza · Rizza Polytechnic{% else %}{{ page.title }} · AskRizza{% endif %}</title>
+  <meta name="description" content="{{ page.lede | default: site.description | strip_html | strip_newlines | truncate: 160 }}">
+  <link rel="icon" href="{{ '/assets/favicon.svg' | relative_url }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="brand" href="{{ '/' | relative_url }}">
+      {% include seal.svg id="hdr" %}
+      <span class="brand-text">
+        <span class="brand-inst">Rizza Polytechnic</span>
+        <span class="brand-name">AskRizza</span>
+      </span>
+    </a>
+    <a class="btn btn-small btn-ghost header-cta" href="{{ site.live_url }}" target="_blank" rel="noopener">Open AskRizza <span aria-hidden="true">↗</span></a>
+  </div>
+  <nav class="site-nav" aria-label="Pages">
+    <details class="nav-toggle">
+      <summary><span>Pages</span><span class="nav-current">{{ page.title }}</span></summary>
+      <ol>
+        {% for item in site.data.nav %}
+        <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span class="no">{{ item.num }}</span>{{ item.title }}</a></li>
+        {% endfor %}
+      </ol>
+    </details>
+    <ol class="nav-wide">
+      {% for item in site.data.nav %}
+      <li><a href="{{ item.url | relative_url }}"{% if page.url == item.url %} aria-current="page"{% endif %}><span class="no">{{ item.num }}</span>{{ item.title }}</a></li>
+      {% endfor %}
+    </ol>
+  </nav>
+</header>
+
+<main id="main">
+{{ content }}
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      {% include seal.svg id="ftr" %}
+      <div>
+        <p class="footer-title">AskRizza</p>
+        <p>The campus helpdesk of Rizza Polytechnic, my SAM10 Systems Administration and Maintenance final project.</p>
+        <p class="footer-note">Rizza Polytechnic is a <strong>fictional college</strong>. Every name, room, number and email address in AskRizza is invented.</p>
+      </div>
+    </div>
+    <div class="footer-cols">
+      <div>
+        <p class="footer-label">Project</p>
+        <ul>
+          <li><a href="{{ site.live_url }}" target="_blank" rel="noopener">Live chatbot ↗</a></li>
+          <li><a href="{{ site.repo_url }}" target="_blank" rel="noopener">Source repository ↗</a></li>
+          <li><a href="{{ '/declaration.html' | relative_url }}">Declaration</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-label">Built on</p>
+        <ul>
+          <li><a href="https://github.com/danny-avila/LibreChat" target="_blank" rel="noopener">LibreChat</a> (MIT licence)</li>
+          <li>Google Gemini API</li>
+          <li>Amazon Web Services</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p class="footer-base">Wendy Rizza V. Calma · SAM10 Final Project · 2026</p>
+</footer>
+<script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
+</body>
+</html>

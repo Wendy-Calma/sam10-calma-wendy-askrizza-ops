@@ -1,18 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="Helvetica, Arial, sans-serif" font-size="13">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" font-family="Inter, Helvetica, Arial, sans-serif" font-size="13">
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0 0L10 5L0 10z" fill="#334155"/>
+      <path d="M0 0L10 5L0 10z" fill="#382A34"/>
     </marker>
     <style>
-      .box{fill:#fff;stroke:#334155;stroke-width:1.5;rx:8}
-      .aws{fill:#f1f8f7;stroke:#0f766e;stroke-width:2;stroke-dasharray:6 4}
-      .ec2{fill:#e6f2f0;stroke:#0f766e;stroke-width:1.5}
-      .ext{fill:#fff7e6;stroke:#b45309;stroke-width:1.5}
+      .box{fill:#fff;stroke:#382A34;stroke-width:1.5;rx:8}
+      .aws{fill:#FCEFF3;stroke:#A64D70;stroke-width:2;stroke-dasharray:6 4}
+      .ec2{fill:#F7E8EE;stroke:#A64D70;stroke-width:1.5}
+      .ext{fill:#FFFFFF;stroke:#D98CA8;stroke-width:1.6;stroke-dasharray:5 3}
       .t{font-weight:bold}
-      .s{font-size:11px;fill:#475569}
-      .l{stroke:#334155;stroke-width:1.6;fill:none;marker-end:url(#a)}
-      .d{stroke:#64748b;stroke-width:1.3;fill:none;stroke-dasharray:4 3;marker-end:url(#a)}
-      .n{font-size:11px;fill:#0f172a;font-weight:bold}
+      .s{font-size:11px;fill:#6B6470}
+      .l{stroke:#382A34;stroke-width:1.6;fill:none;marker-end:url(#a)}
+      .d{stroke:#B98AA0;stroke-width:1.3;fill:none;stroke-dasharray:4 3;marker-end:url(#a)}
+      .n{font-size:11px;fill:#382A34;font-weight:bold}
     </style>
   </defs>
 
@@ -27,7 +27,7 @@
 
   <!-- AWS region -->
   <rect class="aws" x="190" y="20" width="560" height="560" rx="12"/>
-  <text class="t" x="205" y="42" fill="#0f766e">AWS us-east-1 (single region, single AZ)</text>
+  <text class="t" x="205" y="42" fill="#A64D70">AWS us-east-1 (single region, single AZ)</text>
 
   <!-- EC2 -->
   <rect class="ec2" x="210" y="60" width="330" height="300" rx="10"/>
@@ -69,7 +69,7 @@
   <rect class="ext" x="790" y="100" width="150" height="70" rx="8"/>
   <text class="t" x="865" y="125" text-anchor="middle">Google Gemini API</text>
   <text class="s" x="865" y="142" text-anchor="middle">gemini-3.5-flash-lite</text>
-  <text class="s" x="865" y="157" text-anchor="middle">(outside AWS, free tier)</text>
+  <text class="s" x="865" y="157" text-anchor="middle">outside AWS · free tier</text>
   <path class="l" d="M525 128H786"/>
   <text class="n" x="640" y="120">3 question + facts</text>
   <path class="l" d="M786 150H529"/>
