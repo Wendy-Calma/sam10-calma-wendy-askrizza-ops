@@ -72,7 +72,15 @@ All 7 email me through the SNS topic `sam10-alerts`, both when they go off and w
 </details>
 
 ### Request logs
-Caddy writes one JSON line per request to CloudWatch Logs `/sam10/caddy`: time, method, URL, status, duration, and an `X-App-Version` header showing which version answered. LibreChat's own logs go to `/sam10/app`. For its test question, the health-check Lambda logs the question, how long the answer took and whether it was right. Every log group has a retention period, none "Never expire": 2 weeks for request and app logs, 1 month for automation and Lambda logs.
+Three logs together cover every request:
+
+| Log group | One line per… | What it records |
+|---|---|---|
+| `/sam10/requests` | student question | the question (first 200 characters), whether it was answered, whether it **succeeded**, **seconds** to the answer, the model, and the app **version** |
+| `/sam10/caddy` | HTTP request | time, method, URL, status, duration, and an `X-App-Version` header |
+| `/aws/lambda/wendy-sam10-healthcheck` | health check | the test question, response times, and whether the answer was right |
+
+LibreChat doesn't record what students ask, so `scripts/request-log.sh` builds `/sam10/requests` itself. Every 5 minutes it reads the new questions and their answers from MongoDB and writes one JSON line for each. The database has its own log group too, `/sam10/mongodb`, for MongoDB's container logs, and LibreChat's application logs go to `/sam10/app`. Every log group has a retention period, none "Never expire": 2 weeks for request, app and database logs, 1 month for automation and Lambda logs.
 
 ```json
 {
@@ -86,11 +94,18 @@ Caddy writes one JSON line per request to CloudWatch Logs `/sam10/caddy`: time, 
 ```
 <p style="font-size:.85rem;color:var(--gray)">One request from <code>/sam10/caddy</code>, the health check at 09:29:23 UTC on 16 Nov, trimmed.</p>
 
+```json
+{"ts":"2026-11-17T03:22:09.406Z","event":"question","question":"Hi, can I use gym on friday?",
+ "answered":true,"success":true,"seconds":0.9,"model":"gemini-3.5-flash-lite","version":"v1.0.0"}
+```
+<p style="font-size:.85rem;color:var(--gray)">One student question from <code>/sam10/requests</code>, 17 Nov.</p>
+
 <details class="more">
 <summary>Log screenshots</summary>
 <div class="more-body" markdown="1">
 ![Request log in CloudWatch. I blacked out my own IP address.](assets/img/45-caddy-request-log.png)
-![Every log group has a retention period](assets/img/32-log-groups-retention.png)
+![All six AskRizza log groups, each with a retention period (another user's log group blacked out)](assets/img/57-log-groups-all.png)
+![The request log on the server. The first line came from an earlier version of the script, which missed answers stored in LibreChat's newer format and marked this one failed. The second line, from the fixed script, is correct.](assets/img/56-request-log.png)
 </div>
 </details>
 
@@ -150,6 +165,7 @@ On 16 Nov 2026 I deliberately lost the database and brought it back from S3.
 | MFA on my IAM user | Off | **On (virtual MFA)** | A stolen password alone isn't enough to get in. |
 | Personal login, no shared admin | My own IAM user `wendy` | Same. The root user belongs to my instructor, who owns the account; I have no access to it. | Every action traces back to one person. |
 | Secrets | Generated into a file on the disk | **6 Parameter Store SecureStrings**, read at deploy time. None in code, config files or git history. | A leaked repository or disk exposes no keys. |
+| Model API key | – | One Gemini API key, used only by AskRizza's server and health check. Stored as a SecureString, on the free tier with no billing account attached, so it can't run up charges. I'll delete it when the project ends. | A leaked key can't cost money, and it stops working after the project. |
 | Least privilege | – | The server's role can read only `/sam10/*` parameters, use one bucket and publish to one topic. The Lambda can only write metrics to `SAM10` and read one parameter. | A compromised server or function can't reach anything else. |
 | Network | – | Only 443 and 80 open. **No SSH**: Session Manager only. MongoDB is never exposed. | No password-guessing on SSH, and no database open to the internet |
 | Sign-up | **Open to anyone** | **Closed** | Strangers can't create accounts or use the AI quota. |
