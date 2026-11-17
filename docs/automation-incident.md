@@ -5,7 +5,7 @@ permalink: /automation-incident.html
 lede: 'Two jobs that run without me, one real incident from my first deployment, and the runbook I wrote so it never costs anyone more than ten minutes again.'
 ---
 
-There are three kinds of event on this site, and I keep them separate:
+The project had three kinds of event:
 
 - <span class="tag tag-auto">Automated</span> scheduled jobs that run without anyone touching them
 - <span class="tag tag-real">Real incident</span> a failure I didn't plan, found and fixed

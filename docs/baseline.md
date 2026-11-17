@@ -54,6 +54,6 @@ The first deployment was stock LibreChat with its default `docker-compose.yml`: 
 
 ## Cost before
 
-The AWS account belongs to my instructor and is shared, so it already had spending before AskRizza existed: **$25.61 month to date** on 16 Nov, with a forecast of $61.94 for November. That's my "before" figure for the [cost comparison](results.html#cost).
+AskRizza runs in a shared course account, which already had spending before AskRizza existed: **$25.61 month to date** on 16 Nov, with a forecast of $61.94 for November. That's my "before" figure for the [cost comparison](results.html#cost).
 
 ![Account spending before the project, in AWS Budgets](assets/img/04-budget.png)

@@ -33,11 +33,6 @@ One locked helpdesk model, Rizza Polytechnic wording, my own logo and theme, and
 </div>
 </div>
 
-<div class="callout">
-<span class="callout-label">About the colours</span>
-This website uses Rizza Polytechnic's rose and berry. Inside the chat app, AskRizza keeps the teal and amber theme I gave it first. I kept the app as it is so that every screenshot here matches what the live system really looks like.
-</div>
-
 ### The base system running locally
 Before building anything on AWS, I ran unmodified LibreChat on my laptop with Docker Desktop, using its own `docker compose up -d` and default settings. It started 7 containers, including an admin panel, a document-search API and a vector database that AskRizza later switches off. It served the stock interface at `localhost:3080`.
 
@@ -49,7 +44,7 @@ AskRizza's knowledge is one file I wrote, `content/knowledge.md`: about 50 lines
 
 ## Test questions
 
-I asked these in the live system on 16 Nov 2026 and judged each answer against `knowledge.md`. The first three are my three required test questions.
+I asked these in the live system on 16 Nov 2026 and judged each answer against `knowledge.md`.
 
 | # | Question | Expected | Result |
 |---|---|---|---|
@@ -102,7 +97,7 @@ I added "Closed Sunday and public holidays." to the gym line in `knowledge.md`, 
 </div>
 </div>
 
-My first attempt didn't work. I had edited the file in a draft copy instead of the official repository, so the old version went to S3 again. Re-asking in an existing chat also keeps that chat's old instructions. A content fix only reaches students through the full path: **repository → S3 → `start.sh` → a new conversation.**
+My first attempt didn't work. The edited file hadn't been committed to the repository yet, so the old version went to S3 again. Re-asking in an existing chat also keeps that chat's old instructions. A content fix only reaches students through the full path: **repository → S3 → `start.sh` → a new conversation.**
 
 Between tests, the health-check Lambda asks one known question every 15 minutes and records whether the answer is right, so quality is watched all the time, not just once.
 
@@ -112,7 +107,7 @@ Between tests, the health-check Lambda asks one known question every 15 minutes 
 AskRizza answers practical questions about the facilities of Rizza Polytechnic, a fictional college: building hours, room bookings, Wi-Fi, parking, lockers, lost & found and repairs. It answers only from a short list of invented facts, and says so when it doesn't know.
 
 ### 2 · Who uses it, and who must not
-- **Intended users:** students and visitors of the fictional campus. In practice, my instructor and me.
+- **Intended users:** students and visitors of the fictional campus. In practice, it's a demonstration system.
 - **Not for:** any decision about an individual (grades, admissions, discipline, health, money), emergencies, or anything needing real, current information. AskRizza is told to decline these and name the right office.
 
 ### 3 · Base system
@@ -122,15 +117,15 @@ AskRizza answers practical questions about the facilities of Rizza Polytechnic, 
 - **Licence:** [MIT](https://github.com/danny-avila/LibreChat/blob/main/LICENSE). The copyright notice is kept, and rebranding is allowed.
 - **What it did originally:** a general-purpose chat interface for many AI models, with user accounts, chat history, search and document upload
 
-### 4 · What I changed
+### 4 · The reskin
 
-| Part | Original | AskRizza | Why |
+| Part | Original LibreChat | AskRizza | Why |
 |---|---|---|---|
-| Name and branding | "LibreChat" and its logo | **AskRizza**, an "R" logo, teal and amber app theme | New identity |
-| Content | none, general chat | `knowledge.md`: about 50 invented campus facts, stored in S3 | It answers from my content |
-| Wording and prompts | generic welcome, no system prompt | Rizza Polytechnic welcome and footer, and a system prompt that limits answers to the facts and forbids decisions about people | Domain language and safe behaviour |
-| Interface | many models and endpoints | one locked "AskRizza Helpdesk" model; registration closed; admin panel and document search switched off | Simpler and safer |
-| AWS services | none | S3, Parameter Store, SNS, CloudWatch, Lambda, EventBridge, CloudTrail | A real AWS integration |
+| Name and branding | "LibreChat" and its logo | **AskRizza**, an "R" logo, a teal and amber theme | So students recognise it as Rizza Polytechnic's helpdesk, not a general chatbot |
+| Content | none, a general chat | `knowledge.md`: about 50 campus facts, stored in S3 | So it answers about this campus only, from facts I control |
+| Wording and prompts | a generic welcome, no system prompt | a Rizza Polytechnic welcome and footer, and a system prompt that keeps answers to the facts and rules out decisions about people | So it talks like a campus helpdesk and stays within safe limits |
+| Interface | many models and endpoints to choose from | one locked "AskRizza Helpdesk" model; sign-up closed; admin panel and document search switched off | Students get one clear helpdesk, and there's less to secure |
+| AWS services | none | S3, Parameter Store, SNS, CloudWatch, Lambda, EventBridge, CloudTrail | Content, secrets, alerts, monitoring and backups handled by AWS instead of by hand on the server |
 
 ### 5 · Data
 - **Source:** I wrote all of it. Every name, room, number and email address is invented. The email domain `rizza.example` is reserved and doesn't exist.

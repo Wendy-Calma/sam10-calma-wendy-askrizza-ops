@@ -158,7 +158,7 @@ On 16 Nov 2026 I deliberately lost the database and brought it back from S3.
 | Encryption at rest | Off by default | **EBS default encryption on**, S3 encryption on | A copied disk or backup is unreadable. |
 | Threat detection | – | GuardDuty **isn't available** on this account's Free plan | A known gap |
 
-**Secret scan:** on 16 Nov 09:54 UTC I ran [gitleaks](https://github.com/gitleaks/gitleaks) over the full history of the official repository: **12 commits scanned, no leaks found.**
+**Secret scan:** on 16 Nov 09:54 UTC I ran [gitleaks](https://github.com/gitleaks/gitleaks) over the full history of my repository: **12 commits scanned, no leaks found.**
 
 <details class="more">
 <summary>Security evidence (10 screenshots)</summary>

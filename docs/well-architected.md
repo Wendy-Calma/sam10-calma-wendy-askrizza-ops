@@ -53,7 +53,7 @@ Framework: <https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome
 
 **What AskRizza does:** c7i-flex.large (2 vCPU, 4 GiB) was the smallest instance with enough memory that the account's Free plan allowed: t3.medium wasn't available, and 2 GiB looked too tight for the containers. Site and AI response times are measured every 15 minutes.
 
-**Verdict:** <span class="chip chip-adequate">adequate, but oversized</span> Across 16–17 Nov, CPU averaged about 1.5–1.8% and memory about 25% of 4 GiB (roughly 1 GiB). A 2 GiB instance would probably cope at this traffic, at about half the cost, but with little room for traffic spikes or upgrades. I kept 4 GiB on purpose, for stability during the project.
+**Verdict:** <span class="chip chip-adequate">adequate, but oversized</span> Across 16–17 Nov, CPU averaged about 1.5–1.8% and memory about 25% of 4 GiB (roughly 1 GiB). A 2 GiB instance would probably cope at this traffic, for about a third of the monthly cost, but with little room for traffic spikes or upgrades. I kept 4 GiB on purpose, for stability during the project.
 
 ## Cost Optimization
 **What it asks:** pay only for what you use, and keep spending visible.
