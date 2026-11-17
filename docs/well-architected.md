@@ -53,7 +53,7 @@ Verdicts are **good**, **adequate** or **gap**.
 ## Cost Optimization
 - **Framework asks:** pay only for what you use, and make cost visible.
 - **AskRizza does:** every resource tagged `Project=SAM10`; a budget alert; the model is on a free tier; unused containers removed; the 14-day backup lifecycle keeps S3 small.
-- **Verdict: adequate.** The budget covers the whole shared account, not just this project. The project budget waits on the cost-allocation tag being activated.
+- **Verdict: adequate.** The budget covers the whole shared account, not just this project. A project-only budget needs the `Project` cost-allocation tag, which IAM users on this account can't activate, so project cost is calculated from usage instead (see [Results](results.html)). Left running, AskRizza would cost about $68/month, 91% of it the instance.
 
 ## Sustainability
 - **Framework asks:** minimise the resources needed.
