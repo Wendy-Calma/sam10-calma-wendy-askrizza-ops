@@ -145,4 +145,6 @@ One request from `/sam10/caddy` (the health check at 09:29:23 UTC, trimmed):
 ![Security group sam10-web: inbound HTTPS 443 and HTTP 80 only, no SSH](assets/img/46-security-group-inbound.png)
 ![Personal-data check: clean](assets/img/38-pii-check-and-redeploy.png)
 
-<!-- TODO: add a secret-scan result for the repository (e.g. gitleaks detect). -->
+**Secret scan:** I ran [gitleaks](https://github.com/gitleaks/gitleaks) over the full history of the official repository (16 Nov 2026, 09:54 UTC): **12 commits scanned, no leaks found.** No key has ever been committed, including in older commits.
+
+![gitleaks: no leaks found](assets/img/53-gitleaks-no-leaks.png)
