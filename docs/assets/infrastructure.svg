@@ -90,7 +90,7 @@
 
   <rect class="box" x="210" y="385" width="250" height="78" rx="8"/>
   <text class="t" x="335" y="407" text-anchor="middle">CloudWatch</text>
-  <text class="s" x="335" y="424" text-anchor="middle">Logs: /sam10/caddy, /app, /automation</text>
+  <text class="s" x="335" y="424" text-anchor="middle">Logs: caddy, app, mongodb, requests…</text>
   <text class="s" x="335" y="439" text-anchor="middle">Metric filters: RequestCount, Error5xx</text>
   <text class="s" x="335" y="454" text-anchor="middle">Dashboard "AskRizza" · 7 alarms</text>
   <path class="d" d="M375 349V381"/>
